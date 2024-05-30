@@ -1,0 +1,97 @@
+{
+    "general": {
+        "keys": "/cohortbuilder/keys.json",
+        "cache": "/cohortbuilder/cache",
+        "cache_large": "/mnt/Data/cohortbuilder/cache/",
+        "threads": 20,
+        "upload_batch_size": 1000,
+        "reprocess_batch_size": 50,
+        "cohorts_dir": "/mnt/vfhvnas01/HOJG/Studies/CohortBuilder/cohorts",
+        "configs_dir": "/mnt/vfhvnas01/HOJG/Studies/CohortBuilder/configs",
+        "request_timeout": 30,
+        "pending_acquisition_timeout": 2400,
+        "upload_max_attempts": 3,
+        "download_max_attempts": 3,
+        "reprocess_max_attempts": 3,
+        "token_refresh_max_attempts": 5,
+        "discovery_request_max_attempts": 3,
+        "busyhours_start": 8,
+        "busyhours_end": 16,
+        "urm_patient_db_location": "/cohortbuilder/data/URM_patients.xlsx",
+        "taxonomy_cnn_location": "/cohortbuilder/data/taxonomy/taxonomy-swinv1-scripted-224px.pth",
+        "taxonomy_cnn_input_size": [224, 224]
+    },
+    "progress_bar": {
+        "description": 40
+    },
+    "logging": {
+        "root": "/cohortbuilder/logs",
+        "handlers": [
+            {
+                "sink": "trace.log",
+                "level": "TRACE",
+                "format": "{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}",
+                "filter": null,
+                "enqueue": true,
+                "diagnose": false,
+                "backtrace": false
+            },
+            {
+                "sink": "info.log",
+                "level": "INFO",
+                "format": "{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}",
+                "filter": null,
+                "enqueue": true,
+                "diagnose": false,
+                "backtrace": false
+            },
+            {
+                "sink": "exceptions.log",
+                "level": "ERROR",
+                "format": "{time:YYYY-MM-DD HH:mm:ss} | {name}:{function}:{line} | {level} | {message}",
+                "filter": null,
+                "enqueue": true,
+                "diagnose": true,
+                "backtrace": true
+            }
+        ]
+    },
+    "api": {
+        "fhv_jugo": {
+            "url": "http://soinsrv01.fhv.ch:8880",
+            "url_dataset": "soinsrv01.fhv.ch/dashboard/studies?workbook=%s&patient=%s&study=%s&dataset=%s",
+            "timeout": 150,
+            "anonymize": false
+        },
+        "fhv_research": {
+            "url": "http://soinsrv01.fhv.ch:8880",
+            "url_dataset": "soinsrv01.fhv.ch/dashboard/studies?workbook=%s&patient=%s&study=%s&dataset=%s",
+            "timeout": 150,
+            "anonymize": true
+        },
+        "soin": {
+            "url": "http://10.0.0.194:8880",
+            "url_dataset": "10.0.0.194/dashboard/studies?workbook=%s&patient=%s&study=%s&dataset=%s",
+            "timeout": 300,
+            "anonymize": false
+        },
+        "dev": {
+            "url": "https://api.europe.discovery.retinai.com",
+            "url_dataset": "europe.discovery.retinai.com/dashboard/studies?workbook=%s&patient=%s&study=%s&dataset=%s",
+            "timeout": 300,
+            "anonymize": true
+        }
+    },
+    "heyex": {
+        "root": "/mnt/nasfaaheyex/"
+    },
+    "medisight": {
+        "server": "dbmedisightprd\\medisight",
+        "database": "medisight",
+        "driver": "ODBC Driver 18 for SQL Server",
+        "port": "14331"
+    },
+    "slims": {
+        "url": "https://slims.fhv.ch/slimsrest/rest/content?cntn_cf_CGPID=%s&cntn_fk_status=29"
+    }
+}

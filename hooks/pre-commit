@@ -1,0 +1,58 @@
+#!/bin/sh
+
+
+# Style check
+echo "------------------------------- Style check ---------------------------------"
+# TODO: Replace it with pylint (with configuration file)
+git diff --check  # CHECK: It works from the command line but not from here
+tws=$?
+if [ $tws -gt 0 ]
+then
+    cat <<\EOF
+
+Commit will be aborted. To force the commit, use
+    git commit --no-verify
+EOF
+else
+    echo "There are no trailing whitespaces."
+fi
+
+# Quick integration test
+echo "----------------------------- Integration tests -----------------------------"
+# pytest tests/utils.py::test_process >tests/log.out  # NOTE: Use this to skip the tests if they are not updated
+pytest tests/integration/test_build.py::test_everything_small >tests/log.out
+tests=$?
+if [ $tests -gt 0 ]
+then
+    cat <<\EOF
+Some tests failed. Check tests/log.out for details.
+Commit will be aborted. To force the commit, use
+    git commit --no-verify
+EOF
+else
+    echo "All the tests passed successfully."
+fi
+
+
+# Set the exit code
+exitcode=$(($tests + $tws))
+
+if [ $exitcode ]
+then
+    # Render the documentation
+    git diff --exit-code ./docs/ >/dev/null
+    docs=$?
+    git diff --exit-code ./README.rst >/dev/null
+    readme=$?
+    if [ ! $(($docs + $readme)) ]
+    then
+        echo "------------------------ Rendering the documentation ------------------------"
+        docs/make.bat clean html >docs/log.out 2>&1
+        docs/make.bat html >docs/log.out 2>&1
+        echo "Documentation is generated. Check docs/log.out for details."
+    fi
+    # Separate the Git messages
+    echo "------------------------------- Git messages --------------------------------"
+fi
+
+exit $exitcode

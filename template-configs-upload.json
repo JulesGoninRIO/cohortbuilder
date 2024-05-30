@@ -1,0 +1,15 @@
+{
+    "purpose": "upload",
+    "general": {
+    },
+    "modalities": {
+        "pdf": false,
+        "oct": true,
+        "cfi": true,
+        "angiography": true,
+        "...": true
+    },
+    "filters": {
+        "...": "..."
+    }
+}

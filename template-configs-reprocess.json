@@ -1,0 +1,16 @@
+{
+    "purpose": "reprocess",
+    "general": {
+    },
+    "status": {
+        "failed": true,
+        "pending": false
+    },
+    "processes": {
+        "LFSEGMENTATION": true,
+        "GAPROGRESSION": false,
+        "BIOMARKERS": true,
+        "GASEGMENTATION": false,
+        "POSTPROCESSOR": true
+    }
+}

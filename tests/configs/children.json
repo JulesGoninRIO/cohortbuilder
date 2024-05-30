@@ -1,0 +1,48 @@
+{
+    "general": {
+        "name": "Cohort Builder",
+        "copy_filtered_workbook": null,
+        "metadata": false,
+        "taxonomy": false
+    },
+    "types": {
+        "oct": false,
+        "fundus": false,
+        "thumbnail": false,
+        "segmentation": false,
+        "biomarkers": true,
+        "thicknesses": true,
+        "volumes": false,
+        "rawimage": false,
+        "ecrf": false,
+        "pdf": false,
+        "projection_images": false,
+        "thickness_images": false,
+        "h5": false,
+        "dicom": false,
+        "e2e": false,
+        "fda": false
+    },
+    "patients": {
+        "ids": null,
+        "birthdate_inf": null,
+        "birthdate_sup": null,
+        "sex": ["M", "F", "O", "U"]
+    },
+    "studies": {
+        "uuids": null,
+        "variants": null,
+        "date_inf": null,
+        "date_sup": null,
+        "patient_age_inf": null,
+        "patient_age_sup": null
+    },
+    "datasets": {
+        "uuids": null,
+        "variants": null,
+        "laterality": null,
+        "device": null,
+        "manufacturer": null,
+        "invisible": false
+    }
+}

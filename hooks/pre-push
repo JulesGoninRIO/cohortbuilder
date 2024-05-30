@@ -1,0 +1,57 @@
+#!/bin/sh
+
+
+# Get the name of the current branch
+branch=$(git symbolic-ref HEAD)
+
+# For pushing to the main branch
+if test $branch = "refs/heads/main"
+then
+    # Tests
+    echo "----------------------------------- Tests -----------------------------------"
+    # pytest tests/utils.py::test_process >tests/log.out  # NOTE: Use this to skip the tests if they are not updated
+    pytest tests/integration >tests/log.out
+    tests=$?
+    if [ $tests -gt 0 ]
+    then
+        cat <<\EOF
+Some tests failed. Check `tests/log.out` for details.
+Push will be aborted. To force the push, use
+    git push --no-verify
+EOF
+    else
+        echo "All the tests passed successfully."
+    fi
+# For pushing to the other branches
+else
+    tests=0
+fi
+
+# Set the exit code
+exitcode=$tests
+
+if [ $exitcode -eq 0 ]
+then
+    # Update the package dependency and the class UML diagrams
+    # Regenerate the svg files if the diagrams are modified
+    echo "-------------------------- Updating the diagrams ----------------------------"
+    echo "Disabled. Do it manually when needed."
+    # pyreverse ./src -A -o dot -d docs/_static/ >/dev/null
+    git diff --exit-code docs/_static/*.dot >/dev/null
+    modified=$?
+    if [ $modified ]
+    then
+        echo "The diagrams are not changed."
+    else
+        echo "The diagrams are changed. A new commit will be created to update them."
+        dot docs/_static/classes.dot -Tsvg > docs/_static/img/classes.svg
+        dot docs/_static/packages.dot -Tsvg > docs/_static/img/packages.svg
+        git add ./docs/_static/
+        # git commit --amend --no-edit
+        git commit -m "auto: update UML diagrams" --no-verify
+    fi
+    # Separate the Git messages
+    echo "------------------------------- Git messages --------------------------------"
+fi
+
+exit $exitcode

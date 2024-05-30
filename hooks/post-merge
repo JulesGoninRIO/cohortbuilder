@@ -1,0 +1,8 @@
+#!/bin/sh
+
+
+# Render the documentation
+echo "------------------------ Rendering the documentation ------------------------"
+docs/make.bat clean html >docs/log.out 2>&1
+docs/make.bat html >docs/log.out 2>&1
+echo "Documentation is generated. Check docs/log.out for details."
